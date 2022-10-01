@@ -1,0 +1,13 @@
+{
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "forgotYourPassword": "Forgot your password?",
+    "signIn": "Sign In",
+    "signUp": "Don't have an account? Sign Up",
+    "rememberMe": "Remember me",
+    "emailIsRequired": "Email is required",
+    "emailIsInvalid": "Email is invalid",
+    "passwordIsRequired": "Password is required"
+  }
+}
