@@ -1,7 +1,7 @@
 {
   "name": "react-mui-rtk",
   "version": "0.0.1",
-  "description": "A Code4Israel template for a rest api",
+  "description": "React Material UI (MUI) Redux Toolkit (RTK) Template",
   "author": "Doron Feldman",
   "license": "MIT",
   "scripts": {
@@ -22,7 +22,6 @@
     "axios": "^0.27.2",
     "http-status-codes": "^2.2.0",
     "i18next": "^21.8.14",
-    "lodash": "^4.17.21",
     "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -35,7 +34,6 @@
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
-    "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.45",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
