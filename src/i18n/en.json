@@ -1,13 +1,24 @@
 {
-  "login": {
+  "auth": {
     "email": "Email",
+    "name": "Name",
     "password": "Password",
+    "verifyPassword": "Verify Password",
+    "emailIsRequired": "Email is required",
+    "emailIsInvalid": "Email is invalid",
+    "passwordIsRequired": "Password is required",
+    "passwordVerifyIsRequired": "Password verify is required",
+    "nameIsRequired": "Name is required",
+    "logout": "Logout"
+  },
+  "login": {
     "forgotYourPassword": "Forgot your password?",
     "signIn": "Sign In",
     "signUp": "Don't have an account? Sign Up",
     "rememberMe": "Remember me",
-    "emailIsRequired": "Email is required",
-    "emailIsInvalid": "Email is invalid",
-    "passwordIsRequired": "Password is required"
+    "emailIsRequired": "Email is required"
+  },
+  "register": {
+    "register": "Register"
   }
 }

@@ -73,7 +73,7 @@ axiosInstance.interceptors.response.use(
       } catch {
         // If we do not manage to refresh the token, clear all storage and redirect to login
         storageUtil.clear()
-        if (window.location.pathname !== '/login') {
+        if (!['/login', '/register'].includes(window.location.pathname)) {
           window.location.href = '/login'
         }
       } finally {

@@ -40,6 +40,29 @@ export const loginAsync = createAsyncThunk(
   },
 )
 
+export const registerAsync = createAsyncThunk(
+  'auth/register',
+  async (
+    {
+      email,
+      name,
+      password,
+      verifyPassword
+    }: {
+      email: string
+      name: string
+      password: string,
+      verifyPassword: string
+    },
+    { dispatch },
+  ) => {
+    const response = await apiRequests.register({ email, name, password, verifyPassword })
+    if(response){
+      dispatch(loginAsync({ email: email, password: password }))
+    }
+  },
+)
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -65,6 +88,10 @@ export const authSlice = createSlice({
         state.status = RequestStatus.Loading
       })
       .addCase(loginAsync.rejected, (state, action) => {
+        state.error = action.error.message
+        state.status = RequestStatus.Failed
+      })
+      .addCase(registerAsync.rejected, (state, action) => {
         state.error = action.error.message
         state.status = RequestStatus.Failed
       })
