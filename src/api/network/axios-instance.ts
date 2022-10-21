@@ -43,6 +43,7 @@ axiosInstance.interceptors.response.use(
     return response.data
   },
   async error => {
+    error.message = error.response?.data?.error ?? error.message
     throw error
   },
 )
@@ -73,7 +74,7 @@ axiosInstance.interceptors.response.use(
       } catch {
         // If we do not manage to refresh the token, clear all storage and redirect to login
         storageUtil.clear()
-        if (window.location.pathname !== '/login') {
+        if (!['/login', '/register'].includes(window.location.pathname)) {
           window.location.href = '/login'
         }
       } finally {
@@ -90,6 +91,7 @@ axiosInstance.interceptors.response.use(
       })
     }
 
+    error.message = error.response?.data?.error ?? error.message
     throw error
   },
 )

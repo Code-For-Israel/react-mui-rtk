@@ -43,7 +43,6 @@ $ npm start
 ## Still missing:
 
 - [ ] Style guide explaining the rules and project structure
-- [ ] User registration flow
 
 ---
 

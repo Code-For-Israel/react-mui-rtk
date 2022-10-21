@@ -4,11 +4,13 @@ import { User } from '../api/dtos'
 import { RequestStatus } from '../common/types'
 import { config } from '../config'
 import { storageUtil } from '../utils'
+import { loginAsync } from './auth-slice'
 import { RootState } from './store'
 
 export interface UserState {
   user?: User
   error?: string
+  registerError?: string
   status: RequestStatus
 }
 
@@ -23,6 +25,29 @@ export const getUserAsync = createAsyncThunk('user/getUser', async (): Promise<U
   storageUtil.set(config.storage.USER_KEY, response)
   return response
 })
+
+export const registerAsync = createAsyncThunk(
+  'auth/register',
+  async (
+    {
+      email,
+      name,
+      password,
+      verifyPassword,
+    }: {
+      email: string
+      name: string
+      password: string
+      verifyPassword: string
+    },
+    { dispatch, rejectWithValue },
+  ) => {
+    const response = await apiRequests.register({ email, name, password, verifyPassword })
+    if (response) {
+      dispatch(loginAsync({ email: email, password: password }))
+    }
+  },
+)
 
 export const userSlice = createSlice({
   name: 'user',
@@ -40,6 +65,13 @@ export const userSlice = createSlice({
       })
       .addCase(getUserAsync.rejected, (state, action) => {
         state.error = action.error.message
+        state.status = RequestStatus.Failed
+      })
+      .addCase(registerAsync.pending, (state, action) => {
+        state.status = RequestStatus.Loading
+      })
+      .addCase(registerAsync.rejected, (state, action) => {
+        state.registerError = action.error.message
         state.status = RequestStatus.Failed
       })
   },
