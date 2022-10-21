@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import { RequestStatus } from 'common/types'
 import { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -93,9 +94,17 @@ export const Login = () => {
                 type="password"
               />
             )}
-            rules={{ required: { value: true, message: t('auth.passwordIsRequired') } }}
+            rules={{
+              required: { value: true, message: t('auth.passwordIsRequired') },
+            }}
           />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            disabled={status === RequestStatus.Loading}
+          >
             {t('login.signIn')}
           </Button>
           <Grid container>

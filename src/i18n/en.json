@@ -7,6 +7,7 @@
     "emailIsRequired": "Email is required",
     "emailIsInvalid": "Email is invalid",
     "passwordIsRequired": "Password is required",
+    "passwordIsInvalid": "A password must contain a minimum of 8 characters, at least 1 letter and 1 number",
     "passwordVerifyIsRequired": "Password verify is required",
     "nameIsRequired": "Name is required",
     "logout": "Logout"
@@ -15,8 +16,7 @@
     "forgotYourPassword": "Forgot your password?",
     "signIn": "Sign In",
     "signUp": "Don't have an account? Sign Up",
-    "rememberMe": "Remember me",
-    "emailIsRequired": "Email is required"
+    "rememberMe": "Remember me"
   },
   "register": {
     "register": "Register"

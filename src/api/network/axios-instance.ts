@@ -43,6 +43,7 @@ axiosInstance.interceptors.response.use(
     return response.data
   },
   async error => {
+    error.message = error.response?.data?.error ?? error.message
     throw error
   },
 )
@@ -90,6 +91,7 @@ axiosInstance.interceptors.response.use(
       })
     }
 
+    error.message = error.response?.data?.error ?? error.message
     throw error
   },
 )

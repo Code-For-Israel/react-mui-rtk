@@ -6,24 +6,36 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import { RequestStatus } from 'common/types'
 import { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { paths } from '../../routes'
-import { registerAsync, selectAuthState, selectUserState, useAppDispatch, useAppSelector } from '../../store'
+import { registerAsync, selectUserState, useAppDispatch, useAppSelector } from '../../store'
 
 export const Register = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { error, status } = useAppSelector(selectAuthState)
-  const { user } = useAppSelector(selectUserState)
-  const { handleSubmit, control, watch } = useForm<{ name: string; email: string; password: string, verifyPassword: string }>()
+  const { registerError, status, user } = useAppSelector(selectUserState)
+  const { handleSubmit, control, watch } = useForm<{
+    name: string
+    email: string
+    password: string
+    verifyPassword: string
+  }>()
 
   const onSubmit = useCallback(
-    (data: { name: string; email: string; password: string, verifyPassword: string }) => {
-      dispatch(registerAsync({ name: data.name, email: data.email, password: data.password, verifyPassword:data.verifyPassword }))
+    (data: { name: string; email: string; password: string; verifyPassword: string }) => {
+      dispatch(
+        registerAsync({
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          verifyPassword: data.verifyPassword,
+        }),
+      )
     },
     [dispatch],
   )
@@ -34,7 +46,7 @@ export const Register = () => {
     }
   }, [user, navigate])
 
-  let pwd = watch("password");
+  let pwd = watch('password')
 
   return (
     <Container component="main" maxWidth="xs">
@@ -113,7 +125,10 @@ export const Register = () => {
                 type="password"
               />
             )}
-            rules={{ required: { value: true, message: t('auth.passwordIsRequired') } }}
+            rules={{
+              required: { value: true, message: t('auth.passwordIsRequired') },
+              pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g, message: t('auth.passwordIsInvalid') },
+            }}
           />
           <Controller
             name="verifyPassword"
@@ -133,16 +148,22 @@ export const Register = () => {
               />
             )}
             rules={{
-                required: { value: true, message: t('auth.passwordVerifyIsRequired') },
-                validate: value => value === pwd || "The passwords do not match"
-              }}
+              required: { value: true, message: t('auth.passwordVerifyIsRequired') },
+              validate: value => value === pwd || 'The passwords do not match',
+            }}
           />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            disabled={status === RequestStatus.Loading}
+          >
             {t('register.register')}
           </Button>
-          {error && (
+          {registerError && (
             <Alert sx={{ marginTop: 2 }} severity="error">
-              {error}
+              {registerError}
             </Alert>
           )}
         </Box>

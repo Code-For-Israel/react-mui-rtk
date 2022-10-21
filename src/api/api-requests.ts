@@ -1,4 +1,4 @@
-import { LoginRequest, RegisterRequest, RegisterResponse, TokenResponse, User } from './dtos'
+import { LoginRequest, RegisterRequest, TokenResponse, User } from './dtos'
 import { axiosInstance } from './network'
 import { ApiResponse } from './types'
 import { RequestConfig } from './types/request-config'
@@ -12,9 +12,9 @@ const login = async (loginRequest: LoginRequest, config?: RequestConfig): Promis
   return apiResponse.data!
 }
 
-const register = async (registerRequest: RegisterRequest, config?: RequestConfig): Promise<RegisterResponse> => {
-  const apiResponse = await axiosInstance.post<RegisterRequest, ApiResponse<RegisterResponse>>(
-    '/auth/register',
+const register = async (registerRequest: RegisterRequest, config?: RequestConfig): Promise<User> => {
+  const apiResponse = await axiosInstance.post<RegisterRequest, ApiResponse<User>>(
+    '/users/register',
     registerRequest,
     config,
   )
