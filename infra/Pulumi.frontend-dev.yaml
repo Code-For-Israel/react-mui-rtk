@@ -1,4 +1,4 @@
-encryptionsalt: v1:ywzq47oLdz0=:v1:V4x1HNDqRseNF+e4:qiPwao9P36Tf1IrWK7+xli4gjNgPcQ==
+encryptionsalt: v1:64wi+JqFOtc=:v1:4DoFlsXBpXaceioA:KKjYSvWKAjM504tx2XGHL9HMs4EALQ==
 config:
   aws:region: eu-west-1
   react-frontend:errorDocument: index.html
