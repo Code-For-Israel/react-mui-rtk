@@ -31,7 +31,7 @@ const bucket = new aws.s3.Bucket('bucket', {
 
 const buildCommand = new local.Command('build-command', {
   dir: '../',
-  create: 'npm run build',
+  create: 'npm ci && npm run build',
   environment: { REACT_APP_TIMEOUT: timeoutMs.toString(), REACT_APP_API_URL: backendURL },
   assetPaths: ['build/**'],
   triggers: [uuidv4()],
