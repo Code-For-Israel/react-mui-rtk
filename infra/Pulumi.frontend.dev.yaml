@@ -1,6 +1,0 @@
-encryptionsalt: v1:ywzq47oLdz0=:v1:V4x1HNDqRseNF+e4:qiPwao9P36Tf1IrWK7+xli4gjNgPcQ==
-config:
-  aws:region: eu-west-1
-  react-mui-rtk:errorDocument: index.html
-  react-mui-rtk:indexDocument: index.html
-  react-mui-rtk:timeoutMs: 5000

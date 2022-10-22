@@ -9,8 +9,13 @@ const config = new pulumi.Config()
 const indexDocument = config.get('indexDocument') || 'index.html'
 const errorDocument = config.get('errorDocument') || 'index.html'
 const timeoutMs = config.getNumber('timeoutMs') || 5000
+const prefix = `${pulumi.getProject()}-${pulumi.getStack()}`
+const tags = {
+  'pulumi:project': pulumi.getProject(),
+  'pulumi:stack': pulumi.getStack(),
+}
 
-const backendStack = new pulumi.StackReference('backend.dev')
+const backendStack = new pulumi.StackReference('backend-dev')
 const backendURL = backendStack.getOutput('url')
 
 // Create an S3 bucket and configure it as a website.
@@ -20,6 +25,8 @@ const bucket = new aws.s3.Bucket('bucket', {
     indexDocument: indexDocument,
     errorDocument: errorDocument,
   },
+  bucket: `${prefix}-bucket`,
+  tags,
 })
 
 const buildCommand = new local.Command('build-command', {
@@ -31,11 +38,17 @@ const buildCommand = new local.Command('build-command', {
 })
 
 // Use a synced folder to manage the files of the website.
-const bucketFolder = new synced_folder.S3BucketFolder('bucket-synced-folder', {
-  path: '../build',
-  bucketName: bucket.bucket,
-  acl: 'public-read',
-})
+const bucketFolder = new synced_folder.S3BucketFolder(
+  'bucket-synced-folder',
+  {
+    path: '../build',
+    bucketName: bucket.bucket,
+    acl: 'public-read',
+  },
+  {
+    dependsOn: buildCommand,
+  },
+)
 
 // Create a CloudFront CDN to distribute and cache the website.
 const cdn = new aws.cloudfront.Distribution('cdn', {
@@ -54,7 +67,7 @@ const cdn = new aws.cloudfront.Distribution('cdn', {
   ],
   defaultCacheBehavior: {
     targetOriginId: bucket.arn,
-    viewerProtocolPolicy: 'redirect-to-https',
+    viewerProtocolPolicy: 'allow-all',
     allowedMethods: ['GET', 'HEAD', 'OPTIONS'],
     cachedMethods: ['GET', 'HEAD', 'OPTIONS'],
     defaultTtl: 600,
@@ -62,6 +75,7 @@ const cdn = new aws.cloudfront.Distribution('cdn', {
     minTtl: 600,
     forwardedValues: {
       queryString: true,
+      headers: ['Access-Control-Request-Headers', 'Access-Control-Request-Method', 'Origin'],
       cookies: {
         forward: 'all',
       },
@@ -83,12 +97,20 @@ const cdn = new aws.cloudfront.Distribution('cdn', {
   viewerCertificate: {
     cloudfrontDefaultCertificate: true,
   },
+  tags,
 })
 
-// TODO: invalidate cdn cache for index.html
+const invalidationCommand = new local.Command(
+  'invalidate-index',
+  {
+    create: pulumi.interpolate`aws cloudfront create-invalidation --distribution-id ${cdn.id} --paths /*`,
+    triggers: [uuidv4()],
+  },
+  {
+    dependsOn: [bucketFolder, cdn],
+  },
+)
 
 // Export the URLs and hostnames of the bucket and distribution.
-export const originURL = pulumi.interpolate`http://${bucket.websiteEndpoint}`
-export const originHostname = bucket.websiteEndpoint
-export const cdnURL = pulumi.interpolate`https://${cdn.domainName}`
-export const cdnHostname = cdn.domainName
+export const bucketURL = pulumi.interpolate`http://${bucket.websiteEndpoint}`
+export const cdnURL = pulumi.interpolate`http://${cdn.domainName}`

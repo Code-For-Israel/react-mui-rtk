@@ -1,0 +1,6 @@
+encryptionsalt: v1:ywzq47oLdz0=:v1:V4x1HNDqRseNF+e4:qiPwao9P36Tf1IrWK7+xli4gjNgPcQ==
+config:
+  aws:region: eu-west-1
+  react-frontend:errorDocument: index.html
+  react-frontend:indexDocument: index.html
+  react-frontend:timeoutMs: 5000
