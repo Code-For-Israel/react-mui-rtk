@@ -15,7 +15,7 @@ const tags = {
   'pulumi:stack': pulumi.getStack(),
 }
 
-const backendStack = new pulumi.StackReference('backend-dev')
+const backendStack = new pulumi.StackReference('rest-api-dev')
 const backendURL = backendStack.getOutput('url')
 
 // Create an S3 bucket and configure it as a website.

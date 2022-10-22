@@ -35,7 +35,7 @@ jobs:
         with:
           command: up
           stack-name: frontend-dev
-          cloud-url: s3://pulumi-infra
+          cloud-url: s3://template-pulumi-infra
           work-dir: infra
         env:
           PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
