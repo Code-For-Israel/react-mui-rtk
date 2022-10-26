@@ -62,7 +62,7 @@ export const Register = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Register
+          {t('register.register')}
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
           <Controller

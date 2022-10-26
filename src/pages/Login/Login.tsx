@@ -51,7 +51,7 @@ export const Login = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in please
+          {t('login.signIn')}
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
           <Controller
