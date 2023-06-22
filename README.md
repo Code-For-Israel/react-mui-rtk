@@ -13,6 +13,14 @@ _designed to work with [node-express-rest-api](https://github.com/Code-For-Israe
 
 ---
 
+### The infra (AWS)
+
+1. Pulumi - The infra framework
+2. S3 Static Website
+3. CloudFront CDN for
+
+---
+
 ## Configuration
 
 In order to run in dev mode, you must create a .env file
